@@ -1,0 +1,69 @@
+﻿@using EntityLayer.Concrete
+@model List<Notification>
+@{
+    ViewData["Title"] = "AllNotification";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f8f8f8;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .notification-id {
+        font-weight: bold;
+    }
+
+    .notification-date {
+        font-style: italic;
+    }
+</style>
+
+<h1>Bildirimler</h1>
+<table class="table table-active">
+    <tr>
+        <th>#</th>
+        <th>Bildirim</th>
+        <th>Tarih</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="notification-id">@item.NotificationId</td>
+            <td>@item.NotificationDetails</td>
+            <td class="notification-date">@DuzenlenmisTarih(item.NotificationDate)</td>
+        </tr>
+    }
+</table>
+
+
+
+@functions {
+    public string DuzenlenmisTarih(DateTime bildirimTarihi)
+    {
+        var suAnkiTarih = DateTime.Now;
+        var gecenSure = suAnkiTarih - bildirimTarihi;
+        var gecenSaatler = (int)gecenSure.TotalHours;
+        var gecenDakikalar = (int)gecenSure.TotalMinutes;
+        var saatDakika = $"{gecenSaatler} saat {gecenDakikalar % 60} dakika önce";
+        return saatDakika;
+    }
+}
+
+
